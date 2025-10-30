@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Break-Even Point Calculator for Small Business | Ajayds.com</title>
+    <link rel="icon" href="https://ajayds.com/wp-content/uploads/2025/10/ajayds-.com-1-150x150.png" sizes="32x32">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"
+        defer></script>
+</head>
+
+<body class="bg-gray-50">
+
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <a href="https://ajayds.com/">
+                <img src="https://ajayds.com/wp-content/uploads/2025/10/cropped-Ajayds.com_.png" alt="Ajayds.com Logo"
+                    class="h-10 md:h-12">
+            </a>
+            <nav>
+                <a href="https://ajayds.com/tools" class="text-green-700 hover:text-green-800 font-semibold">Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center mb-12">
+                <h1 class="text-3xl md:text-4xl font-bold text-green-500">
+                    Break-Even Point Calculator
+                </h1>
+                <p class="text-gray-500 mt-2">A free financial tool for small and medium businesses in the USA.</p>
+            </div>
+
+            <!-- Main Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                <!-- Left Column: Inputs & Interactive Tools -->
+                <div class="lg:col-span-1 space-y-8">
+
+                    <!-- Industry Presets -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <label for="industry" class="block text-sm font-medium text-gray-700 mb-2">Start with an
+                            Industry Example:</label>
+                        <select id="industry"
+                            class="w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 p-2 border">
+                            <option value="custom">Custom</option>
+                            <option value="retail">Retail Business</option>
+                            <option value="restaurant">Restaurant</option>
+                            <option value="service">Service Business</option>
+                            <option value="ecommerce">E-commerce Store</option>
+                        </select>
+                    </div>
+
+                    <!-- Core Inputs -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">1. Core Numbers</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="fixedCosts" class="block text-sm font-medium text-gray-700">Total Monthly
+                                    Fixed Costs ($)</label>
+                                <input type="number" id="fixedCosts" placeholder="e.g., 5000"
+                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                            </div>
+                            <div>
+                                <label for="pricePerUnit" class="block text-sm font-medium text-gray-700">Selling Price
+                                    Per Unit ($)</label>
+                                <input type="number" id="pricePerUnit" placeholder="e.g., 50"
+                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                            </div>
+                            <div>
+                                <label for="variableCostPerUnit"
+                                    class="block text-sm font-medium text-gray-700">Variable Cost Per Unit ($)</label>
+                                <input type="number" id="variableCostPerUnit" placeholder="e.g., 20"
+                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profit/Loss Forecaster -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">2. Profitability Forecast</h2>
+                        <div>
+                            <label for="unitsToSell" class="block text-sm font-medium text-gray-700">If you sell this
+                                many units:</label>
+                            <input type="number" id="unitsToSell" placeholder="e.g., 250"
+                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                            <div id="profitOrLossResult" class="mt-3 text-center p-3 rounded-lg text-lg font-bold">--
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profit Goal Slider -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">3. Profit Goal</h2>
+                        <label for="desiredProfit" class="block text-sm font-medium text-gray-700">To make a profit of
+                            ($):</label>
+                        <input type="number" id="desiredProfit" value="1000"
+                            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                        <input type="range" id="profitSlider" min="0" max="10000" step="100" value="1000"
+                            class="w-full mt-3 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                        <p class="mt-3 text-center">You need to sell <strong id="unitsForProfit"
+                                class="text-green-700">--</strong> units.</p>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Results & Chart -->
+                <div class="lg:col-span-2 space-y-8">
+
+                    <!-- Key Metrics -->
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Your Results</h2>
+                        <button id="downloadPdfBtn"
+                            class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-sm font-semibold">Download
+                            PDF</button>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h3 class="text-sm font-medium text-gray-500">Break-Even Units</h3>
+                            <p id="breakEvenUnits" class="text-2xl font-bold text-green-700">--</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h3 class="text-sm font-medium text-gray-500">Break-Even Revenue</h3>
+                            <p id="breakEvenRevenue" class="text-2xl font-bold text-green-700">--</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h3 class="text-sm font-medium text-gray-500">Contribution Margin</h3>
+                            <p id="contributionMargin" class="text-2xl font-bold text-blue-700">--</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h3 class="text-sm font-medium text-gray-500">Margin Percentage</h3>
+                            <p id="contributionMarginPercentage" class="text-2xl font-bold text-blue-700">--</p>
+                        </div>
+                    </div>
+
+                    <!-- Chart -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="h-96 relative">
+                            <canvas id="breakEvenChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- SEO Content Article -->
+            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mt-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Understanding Your Business's Break-Even
+                    Point</h2>
+                <div class="prose prose-lg max-w-none text-gray-600 space-y-6">
+                    <p>For any small business in the USA, from a bustling restaurant in Chicago to a retail startup in
+                        Texas, understanding your numbers is the key to sustainable success. One of the most critical
+                        metrics to master is your break-even point. Our <strong class="text-gray-800">break even
+                            calculator for small business</strong> is designed to demystify this essential calculation,
+                        providing you with the clarity needed to make smarter financial decisions.</p>
+
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 pt-3">What Exactly is a Break-Even Point?
+                    </h3>
+                    <p>In simple terms, the break-even point is the moment when your business’s total revenue equals its
+                        total costs. At this point, you are not making a profit, but you are not losing money either.
+                        Knowing this number tells you the minimum number of units you need to sell, or the minimum
+                        revenue you need to generate, just to keep the lights on. Our <strong
+                            class="text-gray-800">business break even point calculator</strong> handles this complex
+                        formula for you instantly.</p>
+
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 pt-3">How to Calculate Your Break-Even
+                        Point</h3>
+                    <p>While our tool does the heavy lifting, it’s helpful to understand the logic behind it. The
+                        formula is straightforward: <strong class="text-gray-800">Fixed Costs / (Selling Price Per Unit
+                            - Variable Cost Per Unit)</strong>. The denominator of that equation, (Price - Variable
+                        Cost), is your "Contribution Margin." It’s the amount of profit each unit sold contributes to
+                        paying off your fixed costs. Our <strong class="text-gray-800">break even analysis
+                            calculator</strong> not only shows you the final result but also calculates your
+                        contribution margin and margin percentage, giving you deeper insights into your pricing
+                        strategy.</p>
+
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 pt-3">Industry-Specific Scenarios: From
+                        Startups to Restaurants</h3>
+                    <p>Different businesses have vastly different cost structures. That’s why we’ve included presets to
+                        help you get started.</p>
+                    <ul class="list-disc list-inside">
+                        <li><strong>Startup Break-Even Calculator:</strong> If you’re a new venture, your initial fixed
+                            costs (like software, legal fees, and marketing) are high. This tool helps you determine the
+                            sales volume required to survive the crucial early stages and achieve profitability.</li>
+                        <li><strong>Restaurant Break-Even Calculator:</strong> For a restaurant, fixed costs include
+                            rent and staff salaries, while variable costs are the ingredients for each dish. Knowing
+                            your break-even point in terms of meals sold per month is essential for menu pricing and
+                            managing operational hours.</li>
+                        <li><strong>Retail Break-Even Calculator:</strong> Whether you run a physical store or an
+                            e-commerce site, this tool helps you understand how many units of a product you need to sell
+                            to cover your inventory costs, rent, and marketing expenses.</li>
+                    </ul>
+
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 pt-3">Go Beyond Break-Even: Forecasting
+                        for Profit</h3>
+                    <p>This tool is more than just a simple <strong class="text-gray-800">small business cost
+                            calculator</strong>; it’s a forecasting engine. Use the "Profitability Forecast" section to
+                        see how much profit or loss you’ll make at a specific sales volume. But the real power lies in
+                        the "Profit Goal" slider. Want to know how many units you need to sell to make a $5,000 profit?
+                        Simply enter that number, and the calculator will tell you the exact sales target you need to
+                        hit. This feature transforms break-even analysis from a static calculation into a dynamic tool
+                        for strategic planning.</p>
+                    <p>By combining these features with a visual chart, you can not only calculate your break-even point
+                        but truly visualize the path to profitability. This makes it an invaluable resource for anyone
+                        looking for a <strong class="text-gray-800">profit and loss calculator for small
+                            business</strong>, as understanding costs is the first step to maximizing profit.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-50 py-4 mt-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
+            <a href="https://ajayds.com/" class="hover:text-green-700">Ajayds.com</a>
+        </div>
+    </footer>
+
+    <script src="scripts/break-even-calculator.js" defer></script>
+</body>
+
+</html>

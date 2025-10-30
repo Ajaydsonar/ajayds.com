@@ -1,0 +1,82 @@
+🔍 Top 10 SEO Keywords to Target
+
+Here are keywords (based on real search intent + U.S. traffic potential + low competition opportunities):
+
+#	Keyword	Intent	Notes
+1	break even calculator for small business	Transactional	Directly what users search; very high intent.
+2	business break even point calculator	Transactional	Popular alternative phrase.
+3	break even analysis calculator	Informational	Mix of learning + using tool.
+4	how to calculate break even point	Informational	Great for blog/tutorial page.
+5	profit and loss calculator for small business	Transactional	Broader — brings in related users.
+6	small business cost calculator	Informational	Slightly broader audience.
+7	margin and markup calculator	Related	Capture additional tool seekers.
+8	startup break even calculator	Transactional	Ideal for startups and solopreneurs.
+9	restaurant break even calculator	Niche transactional	Restaurants search this a lot.
+10	retail break even calculator	Niche transactional	Great for store owners and eCommerce.
+
+🟢 Primary Focus Keywords:
+
+“break even calculator for small business”
+
+“business break even point calculator”
+
+🟡 Supporting Keywords:
+Use others as LSI (latent semantic indexing) keywords in your meta title, description, and body text.
+
+💡 Simple, High-Value Features to Add
+
+Here are feature ideas that add usefulness and SEO authority without complicating your tool:
+
+🧮 Core Calculator Features
+
+Input Fields:
+
+Fixed Costs (rent, salaries, insurance, etc.)
+
+Variable Cost per Unit (materials, shipping, etc.)
+
+Selling Price per Unit
+
+Optional: Total Units Sold (to show profitability)
+
+Output Metrics:
+
+Break-even point (in units and revenue)
+
+Profit or loss at given sales volume
+
+Margin percentage and contribution margin
+
+⚙️ Smart Add-ons (Boost Engagement & Retention)
+
+Interactive Chart (Visual)
+
+A simple line chart showing revenue vs cost vs break-even.
+
+Tools like Chart.js or ApexCharts can render it instantly.
+
+Helps users visualize profitability crossover point.
+
+PDF/Share Option
+
+Allow users to download their results as a PDF or share link.
+
+Adds perceived professionalism and helps for lead capture later.
+
+Let users export to CSV for quick reporting.
+
+Industry Presets
+
+Add a dropdown for “Retail”, “Restaurant”, “Service”, “E-commerce”.
+
+Automatically populate example costs to make the tool usable instantly.
+
+Currency Selector
+
+Default to USD, but allow switching (for international SEO reach).
+
+Profit Forecast Slider
+
+Slider to see “How many units to earn $X profit”.
+
+Adds interactivity → boosts time-on-page (SEO signal).
