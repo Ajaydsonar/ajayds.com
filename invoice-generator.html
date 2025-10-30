@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Invoice Generator | Create Professional Invoices - Ajayds.com</title>
+    <meta name="description"
+        content="Free online invoice generator for small businesses. Create professional invoices quickly with customizable templates. Download as PDF instantly.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="https://ajayds.com/wp-content/uploads/2025/10/ajayds-.com-1-150x150.png" sizes="32x32">
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"
+        defer></script>
+    <style>
+        .invoice-preview {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+
+            .invoice-preview {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+
+    <header class="bg-white shadow-sm no-print">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="https://ajayds.com/">
+                <img src="https://ajayds.com/wp-content/uploads/2025/10/cropped-Ajayds.com_.png" alt="Ajayds.com Logo"
+                    class="h-12 md:h-14">
+            </a>
+            <nav>
+                <a href="https://ajayds.com/tools" class="text-green-700 hover:text-green-800 font-semibold">Tools</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="bg-gray-50 text-gray-800 pt-10 pb-12">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="text-center mb-10 no-print">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800">
+                    Free <span class="text-green-600">Invoice Generator</span>
+                </h1>
+                <p class="text-gray-600 mt-2">
+                    Create professional invoices in seconds for your business
+                </p>
+            </div>
+
+            <!-- Template Selector -->
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-6 no-print">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-3">
+                    <h2 class="text-lg font-semibold text-gray-800">Quick Templates</h2>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="loadTemplate('consulting')"
+                            class="bg-blue-600 text-white px-3 py-1.5 rounded-md hover:bg-blue-700 text-sm">Consulting</button>
+                        <button onclick="loadTemplate('retail')"
+                            class="bg-purple-600 text-white px-3 py-1.5 rounded-md hover:bg-purple-700 text-sm">Retail</button>
+                        <button onclick="loadTemplate('freelance')"
+                            class="bg-indigo-600 text-white px-3 py-1.5 rounded-md hover:bg-indigo-700 text-sm">Freelance</button>
+                        <button onclick="loadTemplate('service')"
+                            class="bg-teal-600 text-white px-3 py-1.5 rounded-md hover:bg-teal-700 text-sm">Service</button>
+                        <button onclick="clearForm()"
+                            class="bg-gray-600 text-white px-3 py-1.5 rounded-md hover:bg-gray-700 text-sm">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Layout: Form + Preview -->
+            <div class="grid lg:grid-cols-2 gap-6 mb-6">
+
+                <!-- LEFT SIDE: Form -->
+                <div class="space-y-6 no-print">
+                    <!-- Business Info -->
+                    <div class="bg-white rounded-xl shadow-sm p-5">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Your Business Information</h2>
+                        <div class="space-y-3">
+                            <input type="text" id="businessName" placeholder="Business Name"
+                                class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                oninput="updatePreview()">
+                            <input type="text" id="businessAddress" placeholder="Address"
+                                class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                oninput="updatePreview()">
+                            <div class="grid grid-cols-2 gap-3">
+                                <input type="text" id="businessCity" placeholder="City"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    oninput="updatePreview()">
+                                <input type="text" id="businessState" placeholder="State"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    oninput="updatePreview()">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <input type="text" id="businessZip" placeholder="ZIP Code"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    oninput="updatePreview()">
+                                <input type="tel" id="businessPhone" placeholder="Phone"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    oninput="updatePreview()">
+                            </div>
+                            <input type="email" id="businessEmail" placeholder="Email"
+                                class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                oninput="updatePreview()">
+                        </div>
+                    </div>
+
+                    <!-- Client Info -->
+                    <div class="bg-white rounded-xl shadow-sm p-5">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Client Information</h2>
+                        <div class="space-y-3">
+                            <input type="text" id="clientName" placeholder="Client Name"
+                                class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                oninput="updatePreview()">
+                            <input type="text" id="clientAddress" placeholder="Address"
+                                class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                oninput="updatePreview()">
+                            <div class="grid grid-cols-2 gap-3">
+                                <input type="text" id="clientCity" placeholder="City"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    oninput="updatePreview()">
+                                <input type="text" id="clientState" placeholder="State"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    oninput="updatePreview()">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <input type="text" id="clientZip" placeholder="ZIP Code"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    oninput="updatePreview()">
+                                <input type="email" id="clientEmail" placeholder="Email"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    oninput="updatePreview()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Invoice Details -->
+                    <div class="bg-white rounded-xl shadow-sm p-5">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Invoice Details</h2>
+                        <div class="grid sm:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Invoice Number</label>
+                                <input type="text" id="invoiceNumber" placeholder="INV-001"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    oninput="updatePreview()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Invoice Date</label>
+                                <input type="date" id="invoiceDate"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    onchange="updatePreview()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+                                <input type="date" id="dueDate"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    onchange="updatePreview()">
+                            </div>
+                        </div>
+
+                        <!-- Line Items -->
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-md font-semibold text-gray-800">Items / Services</h3>
+                            <button onclick="addLineItem()"
+                                class="bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 text-sm">+ Add
+                                Item</button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-sm">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="text-left px-2 py-2 border-b w-[40%]">Description</th>
+                                        <th class="text-right px-2 py-2 border-b w-[15%]">Qty</th>
+                                        <th class="text-right px-2 py-2 border-b w-[15%]">Rate ($)</th>
+                                        <th class="text-right px-2 py-2 border-b w-[20%]">Amount</th>
+                                        <th class="text-center px-2 py-2 border-b w-[10%]"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lineItemsTable"></tbody>
+                            </table>
+                        </div>
+
+                        <!-- Tax Rate -->
+                        <div class="mt-4 flex justify-end">
+                            <div class="flex items-center gap-2">
+                                <label class="text-sm font-medium text-gray-700">Tax Rate (%):</label>
+                                <input type="number" id="taxRate" value="0" min="0" max="100" step="0.1"
+                                    onchange="calculateTotals()"
+                                    class="w-20 border border-gray-300 p-1.5 rounded-md text-right focus:ring-2 focus:ring-green-500">
+                            </div>
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Notes / Payment Terms</label>
+                            <textarea id="notes" rows="3"
+                                placeholder="Payment is due within 30 days. Thank you for your business!"
+                                class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                oninput="updatePreview()"></textarea>
+                        </div>
+
+                        <!-- Signature Upload -->
+                        <div class="mt-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="block text-sm font-medium text-gray-700">Signature (Optional)</label>
+                                <button type="button" id="toggleSignatureBtn" onclick="toggleSignatureField()"
+                                    class="bg-gray-200 text-gray-700 px-3 py-1.5 rounded-md hover:bg-gray-300 text-sm">Hide Signature</button>
+                            </div>
+                            <div id="signatureInputContainer">
+                                <input type="file" id="signatureUpload" accept="image/*"
+                                    class="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                <button type="button" onclick="clearSignature()"
+                                    class="mt-2 bg-red-500 text-white px-3 py-1.5 rounded-md hover:bg-red-600 text-sm">Clear Signature</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="downloadPDF()"
+                            class="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 font-semibold flex-1">Download
+                            PDF</button>
+                        <button onclick="window.print()"
+                            class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 font-semibold flex-1">Print
+                            Invoice</button>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE: Live Preview -->
+                <div class="lg:sticky lg:top-6 h-fit">
+                    <div class="bg-white invoice-preview rounded-lg p-8 md:p-12" style="min-height: 800px;">
+                        <!-- Preview Header -->
+                        <div class="flex justify-between mb-8">
+                            <div>
+                                <h2 id="preview-businessName" class="text-2xl font-bold text-gray-800 mb-2">Your
+                                    Business Name</h2>
+                                <div class="text-sm text-gray-600 space-y-1">
+                                    <p id="preview-businessAddress"></p>
+                                    <p id="preview-businessCityState"></p>
+                                    <p id="preview-businessPhone"></p>
+                                    <p id="preview-businessEmail"></p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <h1 class="text-4xl font-bold text-green-600 mb-2">INVOICE</h1>
+                                <div class="text-sm text-gray-600 space-y-1">
+                                    <p><span class="font-semibold">Invoice #:</span> <span
+                                            id="preview-invoiceNumber">INV-0000</span></p>
+                                    <p><span class="font-semibold">Date:</span> <span id="preview-invoiceDate">-</span>
+                                    </p>
+                                    <p><span class="font-semibold">Due:</span> <span id="preview-dueDate">-</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bill To -->
+                        <div class="mb-8">
+                            <h3 class="text-sm font-bold text-gray-800 mb-2 uppercase tracking-wide">Bill To:</h3>
+                            <div class="text-sm text-gray-700 space-y-1">
+                                <p id="preview-clientName" class="font-semibold text-base">Client Name</p>
+                                <p id="preview-clientAddress"></p>
+                                <p id="preview-clientCityState"></p>
+                                <p id="preview-clientEmail"></p>
+                            </div>
+                        </div>
+
+                        <!-- Items Table -->
+                        <div class="mb-8">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="bg-green-600 text-white">
+                                        <th class="text-left py-3 px-3 font-semibold">Description</th>
+                                        <th class="text-center py-3 px-3 font-semibold w-20">Qty</th>
+                                        <th class="text-right py-3 px-3 font-semibold w-24">Rate</th>
+                                        <th class="text-right py-3 px-3 font-semibold w-28">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="preview-items" class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td colspan="4" class="py-8 text-center text-gray-400 italic">No items added yet
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Totals -->
+                        <div class="flex justify-end mb-8">
+                            <div class="w-64 space-y-2">
+                                <div class="flex justify-between py-2 border-b border-gray-200">
+                                    <span class="font-medium text-gray-700">Subtotal:</span>
+                                    <span id="preview-subtotal" class="text-gray-800 font-semibold">$0.00</span>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-gray-200">
+                                    <span class="font-medium text-gray-700">Tax (<span
+                                            id="preview-taxRate">0</span>%):</span>
+                                    <span id="preview-taxAmount" class="text-gray-800 font-semibold">$0.00</span>
+                                </div>
+                                <div class="flex justify-between py-3 bg-green-50 px-4 rounded-lg">
+                                    <span class="font-bold text-gray-800 text-lg">Total:</span>
+                                    <span id="preview-total" class="text-green-600 font-bold text-xl">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Signature Preview -->
+                        <div id="preview-signature-section" class="border-t border-gray-200 pt-6 mt-6" style="display: none;">
+                            <h3 class="text-sm font-bold text-gray-800 mb-2 uppercase tracking-wide">Authorized Signature:</h3>
+                            <img id="preview-signature" src="" alt="Signature" class="max-h-24 max-w-full border border-gray-200 p-1">
+                        </div>
+
+                        <!-- Notes -->
+                        <div id="preview-notes-section" class="border-t border-gray-200 pt-6" style="display: none;">
+                            <h3 class="text-sm font-bold text-gray-800 mb-2 uppercase tracking-wide">Notes:</h3>
+                            <p id="preview-notes" class="text-sm text-gray-600 leading-relaxed"></p>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="mt-12 pt-6 border-t border-gray-200 text-center">
+                            <p class="text-sm text-gray-500">Thank you for your business!</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SEO Content -->
+            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mt-8 no-print">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Free Invoice Generator: Create
+                    Professional Invoices for Your Small Business</h2>
+                <div class="text-gray-600 space-y-6 text-base leading-relaxed">
+                    <p>Running a small or medium-sized business in the USA requires efficiency at every level. One
+                        critical but often time-consuming task is creating invoices. Whether you're a freelancer,
+                        consultant, retailer, or service provider, you need a fast, professional way to bill your
+                        clients. Our free online invoice generator is designed specifically for American SMBs, helping
+                        you create polished, compliant invoices in minutes without any design skills or expensive
+                        software.</p>
+
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 pt-3">Why Use an Online Invoice
+                        Generator?</h3>
+                    <p>Traditional invoicing methods—whether manual spreadsheets or complex accounting software—can be
+                        cumbersome and error-prone. An invoice maker online streamlines the entire process, allowing you
+                        to generate invoices instantly with pre-built templates. The benefits are clear: you save time,
+                        reduce errors, maintain a professional image, and get paid faster. For small businesses
+                        operating on tight margins, these advantages translate directly into improved cash flow and
+                        operational efficiency.</p>
+
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 pt-3">How to Create Your Invoice in 3
+                        Simple Steps</h3>
+                    <p>Our invoice generator tool is built for simplicity without sacrificing functionality. Here's how
+                        you can create your first invoice:</p>
+                    <ol class="list-decimal list-inside space-y-3 pl-4">
+                        <li><strong>Choose Your Business Template:</strong> Start by selecting from our quick templates
+                            tailored to different industries. Whether you run a consulting firm, retail shop, freelance
+                            operation, or service business, we have a template that fits. Each template comes
+                            pre-populated with typical line items for your industry, which you can easily customize.
+                            This feature alone saves you significant time compared to creating invoices from scratch.
+                        </li>
+                        <li><strong>Enter Business and Client Details:</strong> Fill in your business information
+                            including name, address, contact details, and email. Then add your client's information in
+                            the designated section. The clean, organized layout ensures you won't miss any critical
+                            details. This structured approach helps you maintain professional standards across all your
+                            invoices.</li>
+                        <li><strong>Add Items, Calculate, and Download:</strong> List the products or services you're
+                            billing for, including descriptions, quantities, and rates. The invoice builder
+                            automatically calculates line item totals. You can add a tax rate that applies to your state
+                            or locality, and the system will compute the tax amount and final total instantly. Add any
+                            payment terms or notes, then simply click "Download PDF" to get your professional invoice
+                            ready to send.</li>
+                    </ol>
+
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 pt-3">Key Features That Make This the
+                        Best Free Invoice Generator</h3>
+                    <p>This isn't just another basic invoice creator. We've packed in features that matter to busy
+                        business owners:</p>
+                    <ul class="list-disc list-inside space-y-3 pl-4">
+                        <li><strong>Industry-Specific Templates:</strong> Our consulting, retail, freelance, and service
+                            templates come with relevant defaults, reducing setup time dramatically.</li>
+                        <li><strong>Automatic Calculations:</strong> No more calculator errors. As you enter quantities
+                            and rates, totals update in real-time. Tax calculations are handled automatically based on
+                            the rate you specify.</li>
+                        <li><strong>Professional PDF Export:</strong> Download invoices as high-quality PDF files ready
+                            to email or print. The PDF format ensures your invoice looks the same on any device and
+                            can't be easily altered.</li>
+                        <li><strong>Mobile-Friendly Design:</strong> Create invoices on your phone or tablet when you're
+                            on the go. The responsive design adapts perfectly to any screen size.</li>
+                        <li><strong>No Registration Required:</strong> Start creating invoices immediately without
+                            creating an account, providing personal information, or paying subscription fees. This is a
+                            truly free invoice generator online.</li>
+                        <li><strong>Customizable Notes Section:</strong> Include payment terms, thank you messages, or
+                            specific instructions to clients. This personal touch helps maintain good client
+                            relationships.</li>
+                    </ul>
+
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 pt-3">Who Should Use This Invoice
+                        Generator?</h3>
+                    <p>This tool is ideal for a wide range of business professionals across the United States:</p>
+                    <ul class="list-disc list-inside space-y-2 pl-4">
+                        <li><strong>Freelancers and Consultants:</strong> Writers, designers, developers, and
+                            consultants who need to bill clients quickly for project work.</li>
+                        <li><strong>Small Service Businesses:</strong> Plumbers, electricians, cleaning services, and
+                            repair professionals who provide on-site services.</li>
+                        <li><strong>Retail Shop Owners:</strong> Small retailers who need to create invoices for
+                            wholesale orders or special customer transactions.</li>
+                        <li><strong>Creative Professionals:</strong> Photographers, videographers, and artists who sell
+                            their work or services.</li>
+                        <li><strong>Startups and Entrepreneurs:</strong> New businesses that need professional invoicing
+                            before investing in comprehensive accounting software.</li>
+                    </ul>
+
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 pt-3">Invoice Best Practices for Small
+                        Businesses</h3>
+                    <p>Creating the invoice is just the first step. To get paid promptly and maintain strong client
+                        relationships, follow these professional invoicing practices:</p>
+                    <ul class="list-disc list-inside space-y-3 pl-4">
+                        <li><strong>Use Sequential Invoice Numbers:</strong> Maintain a logical numbering system (e.g.,
+                            INV-001, INV-002) to stay organized and appear professional.</li>
+                        <li><strong>Include Clear Payment Terms:</strong> Specify your payment deadline (e.g., "Net 30"
+                            for payment within 30 days) and accepted payment methods.</li>
+                        <li><strong>Be Detailed in Descriptions:</strong> Clearly describe what you're billing for so
+                            clients understand exactly what they're paying for, reducing disputes.</li>
+                        <li><strong>Send Invoices Promptly:</strong> Issue invoices immediately after completing work or
+                            delivering products. Delays in invoicing often lead to delays in payment.</li>
+                        <li><strong>Add Your Branding:</strong> Include your business logo if possible (you can edit the
+                            PDF after download or add business details that reinforce your brand).</li>
+                        <li><strong>Follow Up on Overdue Invoices:</strong> If payment isn't received by the due date,
+                            send a polite reminder. Our clear, professional invoice format makes these follow-ups
+                            easier.</li>
+                    </ul>
+
+                    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 pt-3">Why This Free Tool is Perfect for
+                        US Small Businesses</h3>
+                    <p>American small businesses face unique challenges, from varying state tax rates to diverse client
+                        expectations. This invoice generator addresses these specific needs. The ability to customize
+                        tax rates makes it compliant with different state and local requirements. The professional
+                        format meets the standards expected in US business transactions. And because it's completely
+                        free, it's accessible to businesses at any stage, from solo freelancers just starting out to
+                        established SMBs looking to streamline operations.</p>
+
+                    <p class="pt-4">Stop wasting time on complicated invoicing processes. Use our free invoice maker to
+                        create professional invoices in minutes, get paid faster, and focus on what really matters:
+                        growing your business. With industry-specific templates, automatic calculations, and instant PDF
+                        downloads, you have everything you need to manage invoicing efficiently and professionally.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-50 py-4 border-t no-print">
+        <div class="max-w-7xl mx-auto px-6 text-center text-sm text-gray-500">
+            <a href="https://ajayds.com/" class="hover:text-green-700">Ajayds.com</a>
+        </div>
+    </footer>
+
+    <script src="scripts/invoice-generator.js"></script>
+</body>
+
+</html>
